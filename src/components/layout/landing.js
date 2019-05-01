@@ -39,6 +39,8 @@ class landing extends Component {
       currentLatitude: '',
       currentLongitude: '',
       currentTemp: '',
+      currentMinTemp: '',
+      currentMaxTemp: '',
       currenTempFahrenheit: '',
       currentWindspeed: '',
       currentWindgust: '',
@@ -129,10 +131,8 @@ class landing extends Component {
     const res2 = res.concat(res1);
     for (let i = 0; i < result.weatherdata.product[0].time.length; i += 1) {
       if (result.weatherdata.product[0].time[i].$.from === res2) {
-        console.log(i);
         temperature = result.weatherdata.product[0].time[i].location[0].temperature[0].$.value;
         symbol = result.weatherdata.product[0].time[i + 1].location[0].symbol[0].$.number;
-        console.log(symbol);
         wind = result.weatherdata.product[0].time[i].location[0].windSpeed[0].$.mps;
         break;
       }
@@ -182,6 +182,12 @@ class landing extends Component {
             } else {
               self.setState({ currentTemp: self.state.constTemp });
             }
+            // Find and set current minimum temperature
+            const currMinTemp = xpath.evalFirst(result, '//minTemperature', 'value');
+            self.setState({ currentMinTemp: currMinTemp });
+            // Find and set current maximum temperature
+            const currMaxTemp = xpath.evalFirst(result, '//maxTemperature', 'value');
+            self.setState({ currentMaxTemp: currMaxTemp });
             // Find and set Current Windspeed in M/S
             const currWindspeed = xpath.evalFirst(result, '//windSpeed', 'mps');
             self.setState({ currentWindspeed: currWindspeed });
@@ -277,6 +283,8 @@ class landing extends Component {
       currentWindText,
       currentSearch,
       currentTemp,
+      currentMinTemp,
+      currentMaxTemp,
       currenTempFahrenheit,
       checked,
       stedsNavn,
