@@ -80,7 +80,7 @@ class landing extends Component {
           fetch(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${
               position.coords.longitude
-            }&key=AIzaSyDCvC7_ImXhKEkXpaFswGTByRtlFiCzdz0`,
+            }&key=<Insert API Key here>`,
             {}
           )
             .then(response => response.json())
@@ -286,7 +286,7 @@ class landing extends Component {
     return (
       <div className="landing landing-inner">
         <Script
-          url="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCvC7_ImXhKEkXpaFswGTByRtlFiCzdz0&libraries=places"
+          url="https://maps.googleapis.com/maps/api/js?key=<Insert API Key here>&libraries=places"
           onLoad={this.handleScriptLoad}
         />
         <div className="jumbotron">
