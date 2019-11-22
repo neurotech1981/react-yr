@@ -12,7 +12,7 @@ import 'three-dots';
 import geoIcon from '../../img/gps-fixed-indicator.svg';
 
 const API = 'https://api.met.no/weatherapi/locationforecast/1.9/';
-Geocode.setApiKey('AIzaSyDCvC7_ImXhKEkXpaFswGTByRtlFiCzdz0');
+Geocode.setApiKey('<API key HERE>');
 
 function jsUcfirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
