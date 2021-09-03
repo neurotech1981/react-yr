@@ -13,8 +13,8 @@ h1 {
   display: flex;
   -webkit-flex-wrap: nowrap;
   flex-wrap: nowrap;
-  width: 60%;
-  height: 90px;
+  width: 80%;
+  height: 20%;
   background-color: rgb(255, 255, 255);
   margin: 0 auto;
   box-shadow: 3px 4px 12px rgba(0, 0, 0, 0.15);
@@ -164,7 +164,7 @@ Styling for the google autocomplete popup
 }
 
 .checkbox label:after {
-  content: '\2103';
+  content: "\2103";
   display: block;
   position: absolute;
   top: 4px;
@@ -202,7 +202,7 @@ Styling for the google autocomplete popup
 }
 
 .checkbox input:checked ~ label:after {
-  content: '℉';
+  content: "℉";
   transform: translateX(30px);
 }
 
@@ -232,7 +232,7 @@ Styling for the google autocomplete popup
 
 .landing {
   position: relative;
-  background: url('./img/cloud_bg.jpg') no-repeat;
+  background: url("./img/cloud_bg.jpg") no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -253,7 +253,7 @@ input {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: 700;
   font-size: 14px;
   color: #59dd54;

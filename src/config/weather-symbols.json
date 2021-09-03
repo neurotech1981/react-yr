@@ -1,0 +1,193 @@
+[
+  { "id": 1, "symbol_id": 11, "filename": "heavyrainandthunder.svg" },
+  { "id": 2, "symbol_id": 41, "filename": "heavyrainshowers_day.svg" },
+  { "id": 3, "symbol_id": 41, "filename": "heavyrainshowers_night.svg" },
+  {
+    "id": 4,
+    "symbol_id": 41,
+    "filename": "heavyrainshowers_polartwilight.svg"
+  },
+  {
+    "id": 5,
+    "symbol_id": 25,
+    "filename": "heavyrainshowersandthunder_day.svg"
+  },
+  {
+    "id": 6,
+    "symbol_id": 25,
+    "filename": "heavyrainshowersandthunder_night.svg"
+  },
+  {
+    "id": 7,
+    "symbol_id": 25,
+    "filename": "heavyrainshowersandthunder_polartwilight.svg"
+  },
+  { "id": 8, "symbol_id": 48, "filename": "heavysleet.svg" },
+  { "id": 9, "symbol_id": 32, "filename": "heavysleetandthunder.svg" },
+  { "id": 10, "symbol_id": 43, "filename": "heavysleetshowers_day.svg" },
+  { "id": 11, "symbol_id": 43, "filename": "heavysleetshowers_night.svg" },
+  {
+    "id": 12,
+    "symbol_id": 43,
+    "filename": "heavysleetshowers_polartwilight.svg"
+  },
+  {
+    "id": 13,
+    "symbol_id": 27,
+    "filename": "heavysleetshowersandthunder_day.svg"
+  },
+  {
+    "id": 14,
+    "symbol_id": 27,
+    "filename": "heavysleetshowersandthunder_night.svg"
+  },
+  {
+    "id": 15,
+    "symbol_id": 27,
+    "filename": "heavysleetshowersandthunder_polartwilight.svg"
+  },
+  { "id": 16, "symbol_id": 50, "filename": "heavysnow.svg" },
+  { "id": 17, "symbol_id": 34, "filename": "heavysnowandthunder.svg" },
+  { "id": 18, "symbol_id": 45, "filename": "heavysnowshowers_day.svg" },
+  { "id": 19, "symbol_id": 45, "filename": "heavysnowshowers_night.svg" },
+  {
+    "id": 20,
+    "symbol_id": 45,
+    "filename": "heavysnowshowers_polartwilight.svg"
+  },
+  {
+    "id": 21,
+    "symbol_id": 29,
+    "filename": "heavysnowshowersandthunder_day.svg"
+  },
+  {
+    "id": 22,
+    "symbol_id": 29,
+    "filename": "heavysnowshowersandthunder_night.svg"
+  },
+  {
+    "id": 23,
+    "symbol_id": 29,
+    "filename": "heavysnowshowersandthunder_polartwilight.svg"
+  },
+  { "id": 24, "symbol_id": 46, "filename": "lightrain.svg" },
+  { "id": 25, "symbol_id": 30, "filename": "lightrainandthunder.svg" },
+  { "id": 26, "symbol_id": 40, "filename": "lightrainshowers_day.svg" },
+  { "id": 27, "symbol_id": 40, "filename": "lightrainshowers_night.svg" },
+  {
+    "id": 28,
+    "symbol_id": 40,
+    "filename": "lightrainshowers_polartwilight.svg"
+  },
+  {
+    "id": 29,
+    "symbol_id": 24,
+    "filename": "lightrainshowersandthunder_day.svg"
+  },
+  {
+    "id": 30,
+    "symbol_id": 24,
+    "filename": "lightrainshowersandthunder_night.svg"
+  },
+  {
+    "id": 31,
+    "symbol_id": 24,
+    "filename": "lightrainshowersandthunder_polartwilight.svg"
+  },
+  { "id": 32, "symbol_id": 47, "filename": "lightsleet.svg" },
+  { "id": 33, "symbol_id": 31, "filename": "lightsleetandthunder.svg" },
+  { "id": 34, "symbol_id": 42, "filename": "lightsleetshowers_day.svg" },
+  { "id": 35, "symbol_id": 42, "filename": "lightsleetshowers_night.svg" },
+  {
+    "id": 36,
+    "symbol_id": 42,
+    "filename": "lightsleetshowers_polartwilight.svg"
+  },
+  { "id": 37, "symbol_id": 49, "filename": "lightsnow.svg" },
+  { "id": 38, "symbol_id": 33, "filename": "lightsnowandthunder.svg" },
+  { "id": 39, "symbol_id": 44, "filename": "lightsnowshowers_day.svg" },
+  { "id": 40, "symbol_id": 44, "filename": "lightsnowshowers_night.svg" },
+  {
+    "id": 41,
+    "symbol_id": 44,
+    "filename": "lightsnowshowers_polartwilight.svg"
+  },
+  {
+    "id": 42,
+    "symbol_id": 26,
+    "filename": "lightssleetshowersandthunder_day.svg"
+  },
+  {
+    "id": 43,
+    "symbol_id": 26,
+    "filename": "lightssleetshowersandthunder_night.svg"
+  },
+  {
+    "id": 44,
+    "symbol_id": 26,
+    "filename": "lightssleetshowersandthunder_polartwilight.svg"
+  },
+  {
+    "id": 45,
+    "symbol_id": 28,
+    "filename": "lightssnowshowersandthunder_day.svg"
+  },
+  {
+    "id": 46,
+    "symbol_id": 28,
+    "filename": "lightssnowshowersandthunder_night.svg"
+  },
+  {
+    "id": 47,
+    "symbol_id": 28,
+    "filename": "lightssnowshowersandthunder_polartwilight.svg"
+  },
+  { "id": 48, "symbol_id": 3, "filename": "partlycloudy_day.svg" },
+  { "id": 49, "symbol_id": 3, "filename": "partlycloudy_night.svg" },
+  { "id": 50, "symbol_id": 3, "filename": "partlycloudy_polartwilight.svg" },
+  { "id": 51, "symbol_id": 9, "filename": "rain.svg" },
+  { "id": 52, "symbol_id": 22, "filename": "rainandthunder.svg" },
+  { "id": 53, "symbol_id": 5, "filename": "rainshowers_day.svg" },
+  { "id": 54, "symbol_id": 5, "filename": "rainshowers_night.svg" },
+  { "id": 55, "symbol_id": 5, "filename": "rainshowers_polartwilight.svg" },
+  { "id": 56, "symbol_id": 6, "filename": "rainshowersandthunder_day.svg" },
+  { "id": 57, "symbol_id": 6, "filename": "rainshowersandthunder_night.svg" },
+  {
+    "id": 58,
+    "symbol_id": 6,
+    "filename": "rainshowersandthunder_polartwilight.svg"
+  },
+  { "id": 59, "symbol_id": 12, "filename": "sleet.svg" },
+  { "id": 60, "symbol_id": 23, "filename": "sleetandthunder.svg" },
+  { "id": 61, "symbol_id": 7, "filename": "sleetshowers_day.svg" },
+  { "id": 62, "symbol_id": 7, "filename": "sleetshowers_night.svg" },
+  { "id": 63, "symbol_id": 7, "filename": "sleetshowers_polartwilight.svg" },
+  { "id": 64, "symbol_id": 20, "filename": "sleetshowersandthunder_day.svg" },
+  { "id": 65, "symbol_id": 20, "filename": "sleetshowersandthunder_night.svg" },
+  {
+    "id": 66,
+    "symbol_id": 20,
+    "filename": "sleetshowersandthunder_polartwilight.svg"
+  },
+  { "id": 67, "symbol_id": 13, "filename": "snow.svg" },
+  { "id": 68, "symbol_id": 14, "filename": "snowandthunder.svg" },
+  { "id": 69, "symbol_id": 8, "filename": "snowshowers_day.svg" },
+  { "id": 70, "symbol_id": 8, "filename": "snowshowers_night.svg" },
+  { "id": 71, "symbol_id": 8, "filename": "snowshowers_polartwilight.svg" },
+  { "id": 72, "symbol_id": 21, "filename": "snowshowersandthunder_day.svg" },
+  { "id": 73, "symbol_id": 21, "filename": "snowshowersandthunder_night.svg" },
+  {
+    "id": 74,
+    "symbol_id": 21,
+    "filename": "snowshowersandthunder_polartwilight.svg"
+  },
+  { "id": 75, "symbol_id": 1, "filename": "clearsky_day.svg" },
+  { "id": 76, "symbol_id": 1, "filename": "clearsky_night.svg" },
+  { "id": 77, "symbol_id": 1, "filename": "clearsky_polartwilight.svg" },
+  { "id": 78, "symbol_id": 4, "filename": "cloudy.svg" },
+  { "id": 79, "symbol_id": 2, "filename": "fair_day.svg" },
+  { "id": 80, "symbol_id": 2, "filename": "fair_night.svg" },
+  { "id": 81, "symbol_id": 2, "filename": "fair_polartwilight.svg" },
+  { "id": 82, "symbol_id": 15, "filename": "fog.svg" },
+  { "id": 83, "symbol_id": 10, "filename": "heavyrain.svg" }
+]

@@ -2,13 +2,15 @@
     A weather app using data from the Norwegian Meteorological Institute API (https://api.met.no/)
     Using Google Geocode for getting the Latitude / Longitude and Google Places for automatic location suggestions while users type.
 */
-import React, { Component } from 'react';
-import Geocode from 'react-geocode';
-import Script from 'react-load-script';
-import xpath from 'xml2js-xpath';
-import 'three-dots';
-import geoIcon from '../../img/compass.svg';
-require('dotenv').config();
+import symbols from "../../config/weather-symbols.json";
+
+import React, { Component } from "react";
+import Geocode from "react-geocode";
+import Script from "react-load-script";
+import xpath from "xml2js-xpath";
+import "three-dots";
+import geoIcon from "../../img/compass.svg";
+require("dotenv").config();
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API);
 
@@ -33,26 +35,27 @@ class landing extends Component {
     this.searchInput = React.createRef();
 
     this.state = {
-      currentSearch: '',
-      currentLatitude: '',
-      currentLongitude: '',
-      currentTemp: '',
-      currentMinTemp: '',
-      currentMaxTemp: '',
-      currenTempFahrenheit: '',
-      currentWindspeed: '',
-      currentWindgust: '',
-      currentWindText: '',
-      currentSymbolImg: '',
-      currentIcon: '',
+      currentSearch: "",
+      currentLatitude: "",
+      currentLongitude: "",
+      currentTemp: "",
+      currentMinTemp: "",
+      currentMaxTemp: "",
+      currenTempFahrenheit: "",
+      currentWindspeed: "",
+      currentWindgust: "",
+      currentWindText: "",
+      currentSymbolImg: "",
+      currentIcon: "",
+      currPrecipication: 0.0,
       isLoading: false,
-      stedsNavn: '',
-      constTemp: '',
+      stedsNavn: "",
+      constTemp: "",
       checked: false,
       error: null,
-      dayOne: [{ day: '', temp: '', wind: '', icon: '' }],
-      dayTwo: [{ day: '', temp: '', wind: '', icon: '' }],
-      dayThree: [{ day: '', temp: '', wind: '', icon: '' }],
+      dayOne: [{ day: "", temp: "", wind: "", icon: "", precipication: 0.0 }],
+      dayTwo: [{ day: "", temp: "", wind: "", icon: "", precipication: 0.0 }],
+      dayThree: [{ day: "", temp: "", wind: "", icon: "", precipication: 0.0 }],
     };
 
     // preserve the initial state in a new object
@@ -68,11 +71,11 @@ class landing extends Component {
   }
 
   initializeGeoLocation = () => {
-    let locationName = '';
+    let locationName = "";
     const self = this;
     self.setState({ isLoading: true });
 
-    if ('geolocation' in navigator) {
+    if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           self.setState({
@@ -118,34 +121,58 @@ class landing extends Component {
 
   weatherForecast = (result, timeOfDay, daysAhead) => {
     let dateOne = new Date();
-    let temperature = '';
-    let symbol = '';
-    let wind = '';
+    let temperature = "";
+    let symbol = "";
+    let wind = "";
+    let precipitation = 0.0;
     // add a day to todays date
     dateOne.setDate(dateOne.getDate() + daysAhead);
-    let oneDayaHead = dateOne.toLocaleDateString('no-NO', { weekday: 'long' });
+    let oneDayaHead = dateOne.toLocaleDateString("no-NO", { weekday: "long" });
     oneDayaHead = jsUcfirst(oneDayaHead);
     dateOne = dateOne.toJSON(dateOne);
     const res = dateOne.substr(0, 10);
     // change to what time of the day you want data from
     const res1 = `T${timeOfDay}:00Z`;
     const res2 = res.concat(res1);
+    console.log(JSON.stringify(result));
+    console.log("Time slots: " + result.weatherdata.product[0].time.length);
     for (let i = 0; i < result.weatherdata.product[0].time.length; i += 1) {
       if (result.weatherdata.product[0].time[i].$.from === res2) {
-        temperature = result.weatherdata.product[0].time[i].location[0].temperature[0].$.value;
-        symbol = result.weatherdata.product[0].time[i + 1].location[0].symbol[0].$.number;
-        wind = result.weatherdata.product[0].time[i].location[0].windSpeed[0].$.mps;
+        console.log(
+          "Rain MM : " +
+            result.weatherdata.product[0].time[i + 1].location[0]
+              .precipitation[0].$.value
+        );
+        temperature =
+          result.weatherdata.product[0].time[i].location[0].temperature[0].$
+            .value;
+        symbol =
+          result.weatherdata.product[0].time[i + 1].location[0].symbol[0].$
+            .number;
+        precipitation =
+          result.weatherdata.product[0].time[i + 1].location[0].precipitation[0]
+            .$.value;
+        wind =
+          result.weatherdata.product[0].time[i].location[0].windSpeed[0].$.mps;
         break;
       }
     }
-    const weatherSymbol = `${process.env.REACT_APP_MET_PIC_URL}${symbol}&content_type=image/svg%2Bxml`;
-    return { oneDayaHead, temperature, weatherSymbol, wind };
+    console.log("Symbol ID >>> " + symbol);
+    let weatherSymbol = symbols.filter((elements) => {
+      return elements.symbol_id == symbol;
+    }); ///`${process.env.REACT_APP_MET_PIC_URL}${symbol}&content_type=image/svg%2Bxml`;
+
+    weatherSymbol =
+      "http://172.25.33.146:3000/weather-symbols/svg/" +
+      weatherSymbol[0].filename;
+
+    return { oneDayaHead, temperature, weatherSymbol, wind, precipitation };
   };
 
   checkWeather = () => {
-    const parseString = require('react-native-xml2js').parseString;
+    const parseString = require("react-native-xml2js").parseString;
     const self = this;
-    let searchCopy = '';
+    let searchCopy = "";
     searchCopy = this.state.currentSearch;
     self.setState({ isLoading: true });
     if (searchCopy.length > 0) {
@@ -174,11 +201,12 @@ class landing extends Component {
         .then((response) => response.text())
         .then(async (response) => {
           parseString(response, (err, result) => {
+            console.log("Parsestring XML >>> " + JSON.stringify(result));
             // Find and set Current Temperature
             const currTemperature = xpath.evalFirst(
               result,
-              '//temperature',
-              'value'
+              "//temperature",
+              "value"
             );
             // Set a constant temperature state
             self.setState({ constTemp: currTemperature });
@@ -187,13 +215,15 @@ class landing extends Component {
             self.setState({ currenTempFahrenheit: fahrenheit });
 
             let currentTempIcon =
-              currTemperature >= 10 && currTemperature <= 20
-                ? '🌡️'
-                : '' || currTemperature <= 10
-                ? '🥶'
-                : '' || currTemperature >= 20
-                ? '🥵'
-                : '';
+              currTemperature >= 10 && currTemperature <= 15
+                ? "🌡️"
+                : "" || currTemperature <= 10
+                ? "🥶"
+                : "" || (currTemperature >= 20 && currTemperature <= 25)
+                ? "😎"
+                : "" || currTemperature >= 25
+                ? "🥵"
+                : "";
             self.setState({ currentIcon: currentTempIcon });
             // Check for Celsius or Fahrenheit (checkbox = false or true) and set current temperature unit state accordingly
             if (self.state.checked) {
@@ -202,64 +232,80 @@ class landing extends Component {
               self.setState({ currentTemp: self.state.constTemp });
             }
             // Find and set current minimum temperature
-            const currMinTemp = xpath.evalFirst(result, '//minTemperature', 'value');
+            const currMinTemp = xpath.evalFirst(
+              result,
+              "//precipitation",
+              "value"
+            );
             self.setState({ currentMinTemp: currMinTemp });
             // Find and set current maximum temperature
-            const currMaxTemp = xpath.evalFirst(result, '//maxTemperature', 'value');
+            const currMaxTemp = xpath.evalFirst(
+              result,
+              "//maxTemperature",
+              "value"
+            );
             self.setState({ currentMaxTemp: currMaxTemp });
             // Find and set Current Windspeed in M/S
-            const currWindspeed = xpath.evalFirst(result, '//windSpeed', 'mps');
+            const currWindspeed = xpath.evalFirst(result, "//windSpeed", "mps");
             self.setState({ currentWindspeed: currWindspeed });
+            // Find and set precipitation in <MM></MM>
+            const currPrecipication =
+              xpath.evalFirst(result, "//precipication", "value") || 0.0;
+            console.log("currPrecipication >>" + currPrecipication);
+            self.setState({ currPrecipication: currPrecipication });
             // Find and set Windgust in M/S
-            const currWindgust = xpath.evalFirst(result, '//windGust', 'mps');
+            const currWindgust = xpath.evalFirst(result, "//windGust", "mps");
             self.setState({ currentWindgust: currWindgust });
             // Find and set current Wind text
-            const currWindtext = xpath.evalFirst(result, '//windSpeed', 'name');
+            const currWindtext = xpath.evalFirst(result, "//windSpeed", "name");
             self.setState({ currentWindText: currWindtext });
             // Set current image for weather illustration
-            const currSymbolImg = xpath.evalFirst(result, '//symbol', 'number');
+            const currSymbolImg = xpath.evalFirst(result, "//symbol", "number");
             const currWImgLink = `${process.env.REACT_APP_MET_ICON_URL}${currSymbolImg}&content_type=image/svg%2Bxml`;
             self.setState({ currentSymbolImg: currWImgLink });
-            const dayOne = this.weatherForecast(result, '12:00', 1);
+            const dayOne = this.weatherForecast(result, "12:00", 1);
             const dataDayOne = this.state.dayOne.map((data) => ({
               ...data,
               temp: dayOne.temperature,
               day: dayOne.oneDayaHead,
               icon: dayOne.weatherSymbol,
-              wind: dayOne.wind.concat(' m/s'),
+              wind: dayOne.wind.concat(" m/s"),
+              precipication: dayOne.precipitation,
             }));
             this.setState({ dayOne: dataDayOne });
 
-            const dayTwo = this.weatherForecast(result, '12:00', 2);
+            const dayTwo = this.weatherForecast(result, "12:00", 2);
             const dataDayTwo = this.state.dayTwo.map((data) => {
               return {
                 ...data,
                 temp: dayTwo.temperature,
                 day: dayTwo.oneDayaHead,
                 icon: dayTwo.weatherSymbol,
-                wind: dayTwo.wind.concat(' m/s'),
+                wind: dayTwo.wind.concat(" m/s"),
+                precipication: dayTwo.precipitation,
               };
             });
 
             this.setState({ dayTwo: dataDayTwo });
-            const dayThree = this.weatherForecast(result, '12:00', 3);
+            const dayThree = this.weatherForecast(result, "12:00", 3);
             const dataDayThree = this.state.dayThree.map((data) => ({
               ...data,
               temp: dayThree.temperature,
               day: dayThree.oneDayaHead,
               icon: dayThree.weatherSymbol,
-              wind: dayThree.wind.concat('m/s'),
+              wind: dayThree.wind.concat("m/s"),
+              precipication: dayTwo.precipitation,
             }));
             console.log(dataDayThree);
             this.setState({ dayThree: dataDayThree });
           });
         })
         .catch((err) => {
-          console.log('fetch', err);
+          console.log("fetch", err);
         });
       self.setState({ isLoading: false });
     }, 1000);
-    this.setState({ currentSearch: '' });
+    this.setState({ currentSearch: "" });
   };
 
   onClick = (e) => {
@@ -276,15 +322,15 @@ class landing extends Component {
 
   handleScriptLoad() {
     // Declare Options For Autocomplete
-    const options = { types: ['(cities)'] };
+    const options = { types: ["(cities)"] };
     // Initialize Google Autocomplete
     /* global google */
     this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('autocomplete'),
+      document.getElementById("autocomplete"),
       options
     );
     // Fire Event when a suggested name is selected
-    this.autocomplete.addListener('place_changed', this.handlePlaceSelect);
+    this.autocomplete.addListener("place_changed", this.handlePlaceSelect);
   }
 
   handlePlaceSelect() {
@@ -312,10 +358,11 @@ class landing extends Component {
       currentMinTemp,
       currentMaxTemp,
       currenTempFahrenheit,
+      currPrecipication,
       checked,
       stedsNavn,
       isLoading,
-      currentIcon
+      currentIcon,
     } = this.state;
 
     return (
@@ -355,7 +402,7 @@ class landing extends Component {
                 >
                   <span role="img" aria-label="emojis">
                     🔍
-                  </span>{' '}
+                  </span>{" "}
                   Søk
                 </button>
               </div>
@@ -385,55 +432,69 @@ class landing extends Component {
               {stedsNavn.length === 0 ? (
                 <span>Ingen sted søkt opp enda</span>
               ) : (
-                <span>{stedsNavn}</span>
+                <span style={{ color: "rgb(126 116 167)" }}>{stedsNavn}</span>
               )}
             </h1>
           </div>
           {isLoading === true && <div className="dot-falling col-centered" />}
           <div
             className="lead"
-            style={{ fontSize: '1.5em', fontWeight: '600' }}
+            style={{ fontSize: "1.5em", fontWeight: "600" }}
           >
             {currentTemp.length === 0 ? (
-              ''
+              ""
             ) : (
               <span>
                 Nåværende temperatur
-                <span
-                  role="img"
-                  aria-label="Temperature"
-                  style={{ fontSize: '1em' }}
-                >
-                  {currentIcon}
-                </span>
-                <strong>
-                  {checked ? currenTempFahrenheit : currentTemp}{' '}
-                  {checked ? '℉' : '℃'}
-                </strong>
+                <p>
+                  <span
+                    role="img"
+                    aria-label="Temperature"
+                    style={{ fontSize: "1.5em" }}
+                  >
+                    {currentIcon}
+                  </span>
+                  <strong>
+                    <span style={{ fontSize: "1.5em" }}>
+                      {checked ? currenTempFahrenheit : currentTemp}{" "}
+                      {checked ? "℉" : "℃"}
+                    </span>
+                    <span style={{ fontSize: "1.5em" }}>
+                      ({currentMinTemp}/{currentMaxTemp})
+                    </span>
+                  </strong>
+                </p>
               </span>
             )}
           </div>
           <div className="lead">
             {currentWindspeed.length === 0 ? (
-              ''
+              ""
             ) : (
               <span>
-                Vind i m/s {' '}
+                <strong>Vind - </strong>
                 <b>
-                  {currentWindspeed}-{currentWindgust} m/s{' '}
+                  {currentWindspeed}-{currentWindgust} m/s{" "}
                   <span role="img" aria-label="Wind">
                     💨
-                  </span>{' '}
+                  </span>{" "}
                   ({currentWindText})
+                </b>
+                <strong>Regn - </strong>
+                <b>
+                  <span role="img" aria-label="Wind">
+                    ☔
+                  </span>{" "}
+                  {currPrecipication}
                 </b>
               </span>
             )}
           </div>
-          <div className="lead" style={{ paddingBottom: '10px' }}>
-            <img src={currentSymbolImg} alt="" style={{ width: '20%' }} />
+          <div className="lead" style={{ paddingBottom: "10px" }}>
+            <img src={currentSymbolImg} alt="" style={{ width: "20%" }} />
           </div>
           {this.state.dayOne[0].day.length === 0 ? (
-            ''
+            ""
           ) : (
             <div className="flex-container">
               <div className="card-header">
@@ -443,13 +504,16 @@ class landing extends Component {
                 <img
                   src={this.state.dayOne[0].icon}
                   alt=""
-                  style={{ width: '60%' }}
+                  style={{ width: "40%" }}
                 />
               </div>
               <div className="card-main">
                 <i className="material-icons">{this.state.dayOne[0].temp} ℃</i>
                 <div className="main-description">
                   {this.state.dayOne[0].wind}
+                </div>
+                <div className="main-description">
+                  {this.state.dayOne[0].precipication} mm
                 </div>
               </div>
               <div className="card-header">
@@ -459,13 +523,16 @@ class landing extends Component {
                 <img
                   src={this.state.dayTwo[0].icon}
                   alt=""
-                  style={{ width: '60%' }}
+                  style={{ width: "40%" }}
                 />
               </div>
               <div className="card-main">
                 <i className="material-icons">{this.state.dayTwo[0].temp} ℃</i>
                 <div className="main-description">
                   {this.state.dayTwo[0].wind}
+                </div>
+                <div className="main-description">
+                  {this.state.dayTwo[0].precipication} mm
                 </div>
               </div>
               <div className="card-header">
@@ -475,7 +542,7 @@ class landing extends Component {
                 <img
                   src={this.state.dayThree[0].icon}
                   alt=""
-                  style={{ width: '60%' }}
+                  style={{ width: "40%" }}
                 />
               </div>
               <div className="card-main">
@@ -484,6 +551,9 @@ class landing extends Component {
                 </i>
                 <div className="main-description">
                   {this.state.dayThree[0].wind}
+                </div>
+                <div className="main-description">
+                  {this.state.dayThree[0].precipication} mm
                 </div>
               </div>
             </div>
@@ -496,7 +566,7 @@ class landing extends Component {
             alt=""
             href="https://www.met.no/en/"
           >
-            <code style={{ color: '#000000' }}>
+            <code style={{ color: "#000000" }}>
               Based on data from The Norwegian Meteorological Institute
             </code>
           </a>
