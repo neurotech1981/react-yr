@@ -234,7 +234,7 @@ class landing extends Component {
             // Find and set current minimum temperature
             const currMinTemp = xpath.evalFirst(
               result,
-              "//precipitation",
+              "//minTemperature",
               "value"
             );
             self.setState({ currentMinTemp: currMinTemp });
@@ -293,7 +293,7 @@ class landing extends Component {
               temp: dayThree.temperature,
               day: dayThree.oneDayaHead,
               icon: dayThree.weatherSymbol,
-              wind: dayThree.wind.concat("m/s"),
+              wind: dayThree.wind.concat(" m/s"),
               precipication: dayTwo.precipitation,
             }));
             console.log(dataDayThree);
@@ -430,7 +430,9 @@ class landing extends Component {
             <h1 className="display-10">
               Værvarsel for: <br />
               {stedsNavn.length === 0 ? (
-                <span>Ingen sted søkt opp enda</span>
+                <span style={{ fontWeight: 300, fontSize: "1em" }}>
+                  Ingen sted søkt opp enda
+                </span>
               ) : (
                 <span style={{ color: "rgb(126 116 167)" }}>{stedsNavn}</span>
               )}
@@ -450,16 +452,16 @@ class landing extends Component {
                   <span
                     role="img"
                     aria-label="Temperature"
-                    style={{ fontSize: "1.5em" }}
+                    style={{ fontSize: "1em" }}
                   >
                     {currentIcon}
                   </span>
                   <strong>
-                    <span style={{ fontSize: "1.5em" }}>
+                    <span style={{ fontSize: "1em" }}>
                       {checked ? currenTempFahrenheit : currentTemp}{" "}
                       {checked ? "℉" : "℃"}
                     </span>
-                    <span style={{ fontSize: "1.5em" }}>
+                    <span style={{ fontSize: "1em" }}>
                       ({currentMinTemp}/{currentMaxTemp})
                     </span>
                   </strong>
@@ -480,13 +482,13 @@ class landing extends Component {
                   </span>{" "}
                   ({currentWindText})
                 </b>
-                <strong>Regn - </strong>
-                <b>
+                <p>
+                  <strong>Regn - </strong>
                   <span role="img" aria-label="Wind">
                     ☔
                   </span>{" "}
                   {currPrecipication}
-                </b>
+                </p>
               </span>
             )}
           </div>
@@ -496,67 +498,73 @@ class landing extends Component {
           {this.state.dayOne[0].day.length === 0 ? (
             ""
           ) : (
-            <div className="flex-container">
-              <div className="card-header">
-                <div className="card-header-top">
-                  {this.state.dayOne[0].day}
+            <>
+              <div className="flex-container">
+                <div className="card-header">
+                  <div className="card-header-top">
+                    {this.state.dayOne[0].day}
+                  </div>
+                  <img
+                    src={this.state.dayOne[0].icon}
+                    alt=""
+                    style={{ width: "30%" }}
+                  />
                 </div>
-                <img
-                  src={this.state.dayOne[0].icon}
-                  alt=""
-                  style={{ width: "40%" }}
-                />
+                <div className="card-main">
+                  <div className="main-description">
+                    {this.state.dayOne[0].temp} ℃
+                  </div>
+                  <div className="main-description">
+                    {this.state.dayOne[0].wind}
+                  </div>
+                  <div className="main-description">
+                    {this.state.dayOne[0].precipication} mm
+                  </div>
+                </div>
+                <div className="card-header">
+                  <div className="card-header-top">
+                    {this.state.dayTwo[0].day}
+                  </div>
+                  <img
+                    src={this.state.dayTwo[0].icon}
+                    alt=""
+                    style={{ width: "30%" }}
+                  />
+                </div>
+                <div className="card-main">
+                  <div className="main-description">
+                    {this.state.dayTwo[0].temp} ℃
+                  </div>
+                  <div className="main-description">
+                    {this.state.dayTwo[0].wind}
+                  </div>
+                  <div className="main-description">
+                    {this.state.dayTwo[0].precipication} mm
+                  </div>
+                </div>
+                <div className="card-header">
+                  <div className="card-header-top">
+                    {this.state.dayThree[0].day}
+                  </div>
+                  <img
+                    src={this.state.dayThree[0].icon}
+                    alt=""
+                    style={{ width: "30%" }}
+                  />
+                </div>
+                <div className="card-main">
+                  <div className="main-description">
+                    {this.state.dayThree[0].temp} ℃
+                  </div>
+                  <div className="main-description">
+                    {this.state.dayThree[0].wind}
+                  </div>
+                  <div className="main-description">
+                    {this.state.dayThree[0].precipication} mm
+                  </div>
+                </div>
               </div>
-              <div className="card-main">
-                <i className="material-icons">{this.state.dayOne[0].temp} ℃</i>
-                <div className="main-description">
-                  {this.state.dayOne[0].wind}
-                </div>
-                <div className="main-description">
-                  {this.state.dayOne[0].precipication} mm
-                </div>
-              </div>
-              <div className="card-header">
-                <div className="card-header-top">
-                  {this.state.dayTwo[0].day}
-                </div>
-                <img
-                  src={this.state.dayTwo[0].icon}
-                  alt=""
-                  style={{ width: "40%" }}
-                />
-              </div>
-              <div className="card-main">
-                <i className="material-icons">{this.state.dayTwo[0].temp} ℃</i>
-                <div className="main-description">
-                  {this.state.dayTwo[0].wind}
-                </div>
-                <div className="main-description">
-                  {this.state.dayTwo[0].precipication} mm
-                </div>
-              </div>
-              <div className="card-header">
-                <div className="card-header-top">
-                  {this.state.dayThree[0].day}
-                </div>
-                <img
-                  src={this.state.dayThree[0].icon}
-                  alt=""
-                  style={{ width: "40%" }}
-                />
-              </div>
-              <div className="card-main">
-                <i className="material-icons">
-                  {this.state.dayThree[0].temp} ℃
-                </i>
-                <div className="main-description">
-                  {this.state.dayThree[0].wind}
-                </div>
-                <div className="main-description">
-                  {this.state.dayThree[0].precipication} mm
-                </div>
-              </div>
-            </div>
+            </>
           )}
         </div>
         <p>
