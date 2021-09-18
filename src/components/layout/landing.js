@@ -157,14 +157,12 @@ class landing extends Component {
         break;
       }
     }
-    console.log("Symbol ID >>> " + symbol);
     let weatherSymbol = symbols.filter((elements) => {
       return elements.symbol_id == symbol;
     }); ///`${process.env.REACT_APP_MET_PIC_URL}${symbol}&content_type=image/svg%2Bxml`;
 
     weatherSymbol =
-      "http://172.25.33.146:3000/weather-symbols/svg/" +
-      weatherSymbol[0].filename;
+      "http://localhost:3000/weather-symbols/svg/" + weatherSymbol[0].filename;
 
     return { oneDayaHead, temperature, weatherSymbol, wind, precipitation };
   };
@@ -179,7 +177,6 @@ class landing extends Component {
       Geocode.fromAddress(searchCopy).then(
         (response) => {
           const { lat, lng } = response.results[0].geometry.location;
-          console.log(`${lat}<<lat lng>>${lng}`);
           this.setState({
             currentLatitude: lat,
             currentLongitude: lng,
@@ -192,8 +189,6 @@ class landing extends Component {
       );
     }
     setTimeout(() => {
-      console.log(process.env.REACT_APP_MET_API_URL);
-      console.log(this.state.currentLatitude);
       fetch(
         `${process.env.REACT_APP_MET_API_URL}?lat=${this.state.currentLatitude}&lon=${this.state.currentLongitude}`,
         {}
@@ -201,7 +196,6 @@ class landing extends Component {
         .then((response) => response.text())
         .then(async (response) => {
           parseString(response, (err, result) => {
-            console.log("Parsestring XML >>> " + JSON.stringify(result));
             // Find and set Current Temperature
             const currTemperature = xpath.evalFirst(
               result,
@@ -261,7 +255,17 @@ class landing extends Component {
             self.setState({ currentWindText: currWindtext });
             // Set current image for weather illustration
             const currSymbolImg = xpath.evalFirst(result, "//symbol", "number");
-            const currWImgLink = `${process.env.REACT_APP_MET_ICON_URL}${currSymbolImg}&content_type=image/svg%2Bxml`;
+
+            console.log("Symbol ID >>> " + currSymbolImg);
+            let weatherSymbol = symbols.filter((elements) => {
+              return elements.symbol_id == currSymbolImg;
+            }); ///`${process.env.REACT_APP_MET_PIC_URL}${symbol}&content_type=image/svg%2Bxml`;
+
+            weatherSymbol =
+              "http://localhost:3000/weather-symbols/svg/" +
+              weatherSymbol[0].filename;
+
+            const currWImgLink = weatherSymbol; //`${process.env.REACT_APP_MET_ICON_URL}${currSymbolImg}&content_type=image/svg%2Bxml`;
             self.setState({ currentSymbolImg: currWImgLink });
             const dayOne = this.weatherForecast(result, "12:00", 1);
             const dataDayOne = this.state.dayOne.map((data) => ({
@@ -372,6 +376,21 @@ class landing extends Component {
           onLoad={this.handleScriptLoad}
         />
         <div className="jumbotron">
+          <svg viewBox="0 0 960 300">
+            <symbol id="s-text">
+              <text text-anchor="middle" x="50%" y="80%">
+                Ventus
+              </text>
+            </symbol>
+
+            <g class="g-ants">
+              <use xlinkHref="#s-text" class="text-copy"></use>
+              <use xlinkHref="#s-text" class="text-copy"></use>
+              <use xlinkHref="#s-text" class="text-copy"></use>
+              <use xlinkHref="#s-text" class="text-copy"></use>
+              <use xlinkHref="#s-text" class="text-copy"></use>
+            </g>
+          </svg>
           <div className="col-centered">
             {error ? <p>{error.message}</p> : null}
             <h1>
@@ -447,7 +466,6 @@ class landing extends Component {
               ""
             ) : (
               <span>
-                Nåværende temperatur
                 <p>
                   <span
                     role="img"
@@ -459,7 +477,7 @@ class landing extends Component {
                   <strong>
                     <span style={{ fontSize: "1em" }}>
                       {checked ? currenTempFahrenheit : currentTemp}{" "}
-                      {checked ? "℉" : "℃"}
+                      {checked ? "℉ " : "℃ "}
                     </span>
                     <span style={{ fontSize: "1em" }}>
                       ({currentMinTemp}/{currentMaxTemp})
@@ -468,6 +486,9 @@ class landing extends Component {
                 </p>
               </span>
             )}
+          </div>
+          <div className="lead" style={{ paddingBottom: "30px" }}>
+            <img src={currentSymbolImg} alt="" style={{ width: "10%" }} />
           </div>
           <div className="lead">
             {currentWindspeed.length === 0 ? (
@@ -484,16 +505,13 @@ class landing extends Component {
                 </b>
                 <p>
                   <strong>Regn - </strong>
+                  {currPrecipication}
                   <span role="img" aria-label="Wind">
                     ☔
                   </span>{" "}
-                  {currPrecipication}
                 </p>
               </span>
             )}
-          </div>
-          <div className="lead" style={{ paddingBottom: "10px" }}>
-            <img src={currentSymbolImg} alt="" style={{ width: "20%" }} />
           </div>
           {this.state.dayOne[0].day.length === 0 ? (
             ""
@@ -566,19 +584,19 @@ class landing extends Component {
               </div>
             </>
           )}
+          <p>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              alt=""
+              href="https://www.met.no/en/"
+            >
+              <code style={{ color: "#000000" }}>
+                Based on data from The Norwegian Meteorological Institute
+              </code>
+            </a>
+          </p>
         </div>
-        <p>
-          <a
-            rel="noopener noreferrer"
-            target="_blank"
-            alt=""
-            href="https://www.met.no/en/"
-          >
-            <code style={{ color: "#000000" }}>
-              Based on data from The Norwegian Meteorological Institute
-            </code>
-          </a>
-        </p>
       </div>
     );
   }
