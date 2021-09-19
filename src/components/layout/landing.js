@@ -453,7 +453,7 @@ class landing extends Component {
                   Ingen sted søkt opp enda
                 </span>
               ) : (
-                <span style={{ color: "rgb(126 116 167)" }}>{stedsNavn}</span>
+                <span style={{ color: "rgb(0 123 255)" }}>{stedsNavn}</span>
               )}
             </h1>
           </div>
@@ -477,7 +477,7 @@ class landing extends Component {
                   <strong>
                     <span style={{ fontSize: "1em" }}>
                       {checked ? currenTempFahrenheit : currentTemp}{" "}
-                      {checked ? "℉ " : "℃ "}
+                      {checked ? "℉ " : "°C "}
                     </span>
                     <span style={{ fontSize: "1em" }}>
                       ({currentMinTemp}/{currentMaxTemp})
