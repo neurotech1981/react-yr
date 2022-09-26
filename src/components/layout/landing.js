@@ -158,7 +158,7 @@ class landing extends Component {
       }
     }
     let weatherSymbol = symbols.filter((elements) => {
-      return elements.symbol_id == symbol;
+      return elements.symbol_id === symbol;
     }); ///`${process.env.REACT_APP_MET_PIC_URL}${symbol}&content_type=image/svg%2Bxml`;
 
     weatherSymbol =
@@ -258,7 +258,7 @@ class landing extends Component {
 
             console.log("Symbol ID >>> " + currSymbolImg);
             let weatherSymbol = symbols.filter((elements) => {
-              return elements.symbol_id == currSymbolImg;
+              return elements.symbol_id === currSymbolImg;
             }); ///`${process.env.REACT_APP_MET_PIC_URL}${symbol}&content_type=image/svg%2Bxml`;
 
             weatherSymbol =
