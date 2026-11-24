@@ -7,3 +7,44 @@ src\img\weather-icons
 *.svg
 src/img/weather-icons/weather-icons/Flaticon License.txt
 src/img/weather-icons/__MACOSX/weather-icons/._Flaticon License.txt
+
+# ---- GitHub cleanup (shared rules) ----
+# dependencies
+node_modules/
+.pnpm-store/
+.yarn/cache/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+# build output
+.next/
+dist/
+dist-ssr/
+build/
+target/
+.turbo/
+.expo/
+.gradle/
+coverage/
+.cache/
+.parcel-cache/
+# secrets / local env
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+*.pem
+*-adminsdk-*.json
+# local data
+*.sqlite
+*.sqlite3
+*.db
+# logs and OS junk
+*.log
+logs/
+.DS_Store
+Thumbs.db
+*:Zone.Identifier
+.worktrees/

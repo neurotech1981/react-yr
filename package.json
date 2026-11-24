@@ -33,7 +33,7 @@
   "author": "Bjørn-Are Jakobsen",
   "license": "ISC",
   "devDependencies": {
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-config-prettier": "^3.6.0",
     "eslint-plugin-html": "^5.0.5",
